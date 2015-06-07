@@ -7,8 +7,13 @@
 //
 
 #import "DetailViewController.h"
+#import "AppDelegate.h"
 
 @interface DetailViewController ()
+@property (weak, nonatomic) IBOutlet UINavigationItem *navigationTitle;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *saveButton;
+@property (weak, nonatomic) IBOutlet UITextField *noteTitle;
+@property (weak, nonatomic) IBOutlet UITextView *noteText;
 
 @end
 
@@ -24,13 +29,45 @@
         [self configureView];
     }
 }
+- (IBAction)saveNote:(id)sender {
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [appDelegate managedObjectContext];
+    
+    if (self.detailItem) {
+        [self.detailItem setValue:_noteTitle.text forKey:@"title"];
+        [self.detailItem setValue:_noteText.text forKey:@"text"];
+        [self.detailItem setValue:[NSDate date] forKey:@"timeStamp"];
+    } else {
+        NSManagedObject *newNote = [NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:context];
+        [newNote setValue: _noteTitle.text forKey:@"title"];
+        [newNote setValue: _noteText.text forKey:@"text"];
+        [newNote setValue: [NSDate date] forKey:@"timeStamp"];
+    }
+    
+    self.navigationTitle.title = _noteTitle.text;
+    
+    NSError *error;
+    [context save:&error];
+    
+    [self resignFirstResponder];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (void)configureView {
     // Update the user interface for the detail item.
     if (self.detailItem) {
         self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
+        self.navigationTitle.title = [[self.detailItem valueForKey:@"title"] description];
+        self.noteTitle.text = [[self.detailItem valueForKey:@"title"] description];
+        self.noteText.text = [[self.detailItem valueForKey:@"text"] description];
     }
 }
+- (IBAction)doneEditingTitle:(id)sender {
+    [self resignFirstResponder];
+}
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
