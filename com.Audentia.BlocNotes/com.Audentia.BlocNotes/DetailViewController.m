@@ -7,8 +7,13 @@
 //
 
 #import "DetailViewController.h"
+#import "AppDelegate.h"
 
 @interface DetailViewController ()
+@property (weak, nonatomic) IBOutlet UINavigationItem *navigationTitle;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *saveButton;
+@property (weak, nonatomic) IBOutlet UITextField *noteTitle;
+@property (weak, nonatomic) IBOutlet UITextView *noteText;
 
 @end
 
@@ -24,13 +29,74 @@
         [self configureView];
     }
 }
+- (IBAction)saveNote:(id)sender {
+    [self saveData];
+    
+    [self resignFirstResponder];
+    [self.navigationController popViewControllerAnimated:YES];
+
+}
+
+-(void)saveData {
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [appDelegate managedObjectContext];
+    
+    if (self.detailItem) {
+        if ((![[self.detailItem valueForKey:@"title"] isEqualToString:_noteTitle.text]) || ![[self.detailItem valueForKey:@"text"] isEqualToString:_noteText.text]) {
+            [self.detailItem setValue:_noteTitle.text forKey:@"title"];
+            [self.detailItem setValue:_noteText.text forKey:@"text"];
+            [self.detailItem setValue:[NSDate date] forKey:@"timeStamp"];
+            
+            NSError *error;
+            [context save:&error];
+        } else {
+            // do nothing
+            NSLog(@"No changes to existing note, will not save");
+        }
+        
+        
+        
+        
+    } else if (_noteText.text.length == 0 && _noteTitle.text.length == 0) {
+        //do nothing
+        NSLog(@"blank note, will not save");
+    } else {
+        NSManagedObject *newNote = [NSEntityDescription insertNewObjectForEntityForName:@"Note" inManagedObjectContext:context];
+        [newNote setValue: _noteTitle.text forKey:@"title"];
+        [newNote setValue: _noteText.text forKey:@"text"];
+        [newNote setValue: [NSDate date] forKey:@"timeStamp"];
+        
+        NSError *error;
+        [context save:&error];
+    }
+    
+    self.navigationTitle.title = _noteTitle.text;
+    
+ 
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [self saveData];
+
+}
 
 - (void)configureView {
     // Update the user interface for the detail item.
+
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
     if (self.detailItem) {
         self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
+        self.navigationTitle.title = [[self.detailItem valueForKey:@"title"] description];
+        self.noteTitle.text = [[self.detailItem valueForKey:@"title"] description];
+        self.noteText.text = [[self.detailItem valueForKey:@"text"] description];
     }
 }
+- (IBAction)doneEditingTitle:(id)sender {
+    [self resignFirstResponder];
+}
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];

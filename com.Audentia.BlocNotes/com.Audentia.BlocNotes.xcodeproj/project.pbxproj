@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C34C043E1B1D590A0043A323 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = C34C043D1B1D590A0043A323 /* Note.m */; };
 		C3AF48A51B1D32830089730C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C3AF48A41B1D32830089730C /* main.m */; };
 		C3AF48A81B1D32830089730C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C3AF48A71B1D32830089730C /* AppDelegate.m */; };
 		C3AF48AB1B1D32830089730C /* com_Audentia_BlocNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C3AF48A91B1D32830089730C /* com_Audentia_BlocNotes.xcdatamodeld */; };
@@ -29,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C34C043C1B1D590A0043A323 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Note.h; path = ../Note.h; sourceTree = "<group>"; };
+		C34C043D1B1D590A0043A323 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Note.m; path = ../Note.m; sourceTree = "<group>"; };
 		C3AF489F1B1D32830089730C /* com.Audentia.BlocNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = com.Audentia.BlocNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3AF48A31B1D32830089730C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3AF48A41B1D32830089730C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -92,6 +95,8 @@
 				C3AF48AD1B1D32830089730C /* MasterViewController.m */,
 				C3AF48AF1B1D32830089730C /* DetailViewController.h */,
 				C3AF48B01B1D32830089730C /* DetailViewController.m */,
+				C34C043C1B1D590A0043A323 /* Note.h */,
+				C34C043D1B1D590A0043A323 /* Note.m */,
 				C3AF48B21B1D32830089730C /* Main.storyboard */,
 				C3AF48B51B1D32830089730C /* Images.xcassets */,
 				C3AF48B71B1D32830089730C /* LaunchScreen.xib */,
@@ -230,6 +235,7 @@
 				C3AF48B11B1D32830089730C /* DetailViewController.m in Sources */,
 				C3AF48AE1B1D32830089730C /* MasterViewController.m in Sources */,
 				C3AF48AB1B1D32830089730C /* com_Audentia_BlocNotes.xcdatamodeld in Sources */,
+				C34C043E1B1D590A0043A323 /* Note.m in Sources */,
 				C3AF48A81B1D32830089730C /* AppDelegate.m in Sources */,
 				C3AF48A51B1D32830089730C /* main.m in Sources */,
 			);
@@ -428,6 +434,7 @@
 				C3AF48CA1B1D32830089730C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C3AF48CB1B1D32830089730C /* Build configuration list for PBXNativeTarget "com.Audentia.BlocNotesTests" */ = {
 			isa = XCConfigurationList;
@@ -436,6 +443,7 @@
 				C3AF48CD1B1D32830089730C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
