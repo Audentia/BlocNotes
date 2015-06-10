@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8121.17" systemVersion="15A178w" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15A178w" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8101.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -34,7 +33,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bjP-Ke-nSb">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bjP-Ke-nSb">
                                 <rect key="frame" x="36" y="114" width="528" height="466"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -49,7 +48,7 @@
                                     </mask>
                                 </variation>
                             </textView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RKu-o8-ShA">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RKu-o8-ShA">
                                 <rect key="frame" x="36" y="74" width="528" height="30"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -89,9 +88,9 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Create Note" id="mOI-FS-AaM">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="bh7-ka-VJb">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="bh7-ka-VJb">
                             <connections>
-                                <action selector="saveNote:" destination="JEX-9P-axG" id="4QU-zn-3ZN"/>
+                                <action selector="shareNote:" destination="JEX-9P-axG" id="mp8-bS-18e"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -99,7 +98,7 @@
                         <outlet property="navigationTitle" destination="mOI-FS-AaM" id="qCk-Ic-87o"/>
                         <outlet property="noteText" destination="bjP-Ke-nSb" id="DMy-2c-UKb"/>
                         <outlet property="noteTitle" destination="RKu-o8-ShA" id="Zud-At-M6q"/>
-                        <outlet property="saveButton" destination="bh7-ka-VJb" id="GOD-j2-NZO"/>
+                        <outlet property="shareButton" destination="bh7-ka-VJb" id="7qF-le-SBf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
