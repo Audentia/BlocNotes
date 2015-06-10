@@ -11,7 +11,7 @@
 
 @interface DetailViewController ()
 @property (weak, nonatomic) IBOutlet UINavigationItem *navigationTitle;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *saveButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButton;
 @property (weak, nonatomic) IBOutlet UITextField *noteTitle;
 @property (weak, nonatomic) IBOutlet UITextView *noteText;
 
@@ -29,12 +29,23 @@
         [self configureView];
     }
 }
-- (IBAction)saveNote:(id)sender {
-    [self saveData];
+- (IBAction)shareNote:(id)sender {
     
-    [self resignFirstResponder];
-    [self.navigationController popViewControllerAnimated:YES];
-
+    NSMutableArray *itemsToShare = [NSMutableArray array];
+    
+    if (_noteTitle.text.length > 0) {
+        [itemsToShare addObject:_noteTitle.text];
+    }
+    
+    if (_noteText.text.length > 0) {
+        [itemsToShare addObject:_noteText.text];
+    }
+    
+    if (itemsToShare.count > 0) {
+        UIActivityViewController *shareNoteVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
+        [self presentViewController:shareNoteVC animated:YES completion:nil];
+    }
+    
 }
 
 -(void)saveData {
