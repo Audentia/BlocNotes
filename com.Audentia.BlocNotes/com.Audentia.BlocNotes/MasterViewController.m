@@ -9,7 +9,10 @@
 #import "MasterViewController.h"
 #import "DetailViewController.h"
 
-@interface MasterViewController ()
+@interface MasterViewController () <NSFetchedResultsControllerDelegate, UISearchDisplayDelegate, UISearchBarDelegate>
+
+@property (strong, nonatomic) NSArray *filteredList;
+@property (strong, nonatomic) NSFetchRequest *searchFetchRequest;
 
 @end
 
@@ -34,6 +37,7 @@
 }
 
 - (void)didReceiveMemoryWarning {
+    self.searchFetchRequest = nil;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -111,6 +115,45 @@
     NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = [[object valueForKey:@"title"] description];
 }
+
+#pragma mark - Search
+
+- (NSFetchRequest *)searchFetchRequest
+{
+    if (_searchFetchRequest != nil) {
+        return _searchFetchRequest;
+    }
+    
+    _searchFetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Note" inManagedObjectContext:self.managedObjectContext];
+    [_searchFetchRequest setEntity:entity];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"Title" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
+    [_searchFetchRequest setSortDescriptors:sortDescriptors];
+    
+    return _searchFetchRequest;
+}
+
+- (void)searchForText:(NSString *)searchText {
+    if (self.managedObjectContext) {
+        NSString *predicateFormat = @"%K BEGINSWITH[cd  %@";
+        NSString *searchAttribute = @"Title";
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat, searchAttribute, searchText];
+        [self.searchFetchRequest setPredicate:predicate];
+        
+        NSError *error = nil;
+        self.filteredList = [self.managedObjectContext executeFetchRequest:self.searchFetchRequest error:&error];
+    }
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+    [self searchForText:searchString];
+    return YES;
+}
+
+
 
 #pragma mark - Fetched results controller
 
