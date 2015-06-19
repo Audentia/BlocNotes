@@ -8,6 +8,7 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "Note.h"
 
 @interface MasterViewController () <NSFetchedResultsControllerDelegate, UISearchDisplayDelegate, UISearchBarDelegate>
 
@@ -77,16 +78,34 @@
 #pragma mark - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [[self.fetchedResultsController sections] count];
+    if (tableView == self.tableView) {
+        return [[self.fetchedResultsController sections] count];
+    } else {
+        return 1;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
-    return [sectionInfo numberOfObjects];
+    if (tableView == self.tableView) {
+        id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
+        return [sectionInfo numberOfObjects];
+    } else {
+        return [self.filteredList count];
+    }
 }
 
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    
+    Note *note = nil;
+    if (tableView == self.tableView) {
+        note = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    } else {
+        note = [self.filteredList objectAtIndex:indexPath.row];
+    }
+    
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }
@@ -128,7 +147,7 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Note" inManagedObjectContext:self.managedObjectContext];
     [_searchFetchRequest setEntity:entity];
     
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"Title" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
     [_searchFetchRequest setSortDescriptors:sortDescriptors];
     
@@ -137,8 +156,8 @@
 
 - (void)searchForText:(NSString *)searchText {
     if (self.managedObjectContext) {
-        NSString *predicateFormat = @"%K BEGINSWITH[cd  %@";
-        NSString *searchAttribute = @"Title";
+        NSString *predicateFormat = @"%K BEGINSWITH[cd] %@";
+        NSString *searchAttribute = @"title";
         
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat, searchAttribute, searchText];
         [self.searchFetchRequest setPredicate:predicate];
@@ -152,6 +171,35 @@
     [self searchForText:searchString];
     return YES;
 }
+
+//- (void) searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
+//    tableView.rowHeight = 64;
+//}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (tableView == self.tableView) {
+        return @"Bloc Notes";
+    } else {
+        return nil;
+    }
+}
+
+//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+//    if (tableView == self.tableView) {
+//        return <#expression#>
+//    } else {
+//        return nil;
+//    }
+//}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
+    if (tableView == self.tableView) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 
 
 
