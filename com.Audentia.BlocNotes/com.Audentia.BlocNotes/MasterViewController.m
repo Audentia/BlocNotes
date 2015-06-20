@@ -8,12 +8,17 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
-#import "Note.h"
 
-@interface MasterViewController () <NSFetchedResultsControllerDelegate, UISearchDisplayDelegate, UISearchBarDelegate>
+@interface MasterViewController () <NSFetchedResultsControllerDelegate, UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating>
 
 @property (strong, nonatomic) NSArray *filteredList;
+@property (strong, nonatomic) NSPredicate *searchPredicate;
+
 @property (strong, nonatomic) NSFetchRequest *searchFetchRequest;
+@property (strong, nonatomic) UISearchController *searchController;
+
+@property BOOL searchControllerWasActive;
+@property BOOL searchControllerSearchFieldWasFirstResponder;
 
 @end
 
@@ -32,9 +37,34 @@
     // Do any additional setup after loading the view, typically from a nib.
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
-//    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-//    self.navigationItem.rightBarButtonItem = addButton;
+    _searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchController.searchResultsController];
+    
+    self.searchController.searchResultsUpdater = self;
+    [self.searchController.searchBar sizeToFit];
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+    
+    self.searchController.delegate = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.searchBar.delegate = self;
+    
+    self.definesPresentationContext = YES;
+    
     self.detailViewController = (DetailViewController *)[self.splitViewController.viewControllers lastObject];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    // restore the searchController's active state
+    if (self.searchControllerWasActive) {
+        self.searchController.active = self.searchControllerWasActive;
+        _searchControllerWasActive = NO;
+        
+        if (self.searchControllerSearchFieldWasFirstResponder) {
+            [self.searchController.searchBar becomeFirstResponder];
+            _searchControllerSearchFieldWasFirstResponder = NO;
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -78,7 +108,7 @@
 #pragma mark - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (tableView == self.tableView) {
+    if (self.searchPredicate == nil) {
         return [[self.fetchedResultsController sections] count];
     } else {
         return 1;
@@ -86,28 +116,33 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (tableView == self.tableView) {
+    if (self.searchPredicate == nil) {
         id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
         return [sectionInfo numberOfObjects];
     } else {
+        NSLog(@"The search list is being populated");
         return [self.filteredList count];
     }
 }
 
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
-    Note *note = nil;
-    if (tableView == self.tableView) {
-        note = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    } else {
-        note = [self.filteredList objectAtIndex:indexPath.row];
-    }
-    
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
+}
+
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    NSManagedObject *object = nil;
+    if (self.searchPredicate == nil) {
+        object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        cell.textLabel.text = [[object valueForKey:@"title"] description];
+    } else {
+        object = [self.filteredList objectAtIndex:indexPath.row];
+        cell.textLabel.text = [[object valueForKey:@"title"] description];
+    }
+
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -130,9 +165,11 @@
     }
 }
 
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[object valueForKey:@"title"] description];
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
 }
 
 #pragma mark - Search
@@ -154,35 +191,33 @@
     return _searchFetchRequest;
 }
 
-- (void)searchForText:(NSString *)searchText {
-    if (self.managedObjectContext) {
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    NSString *searchText = searchController.searchBar.text;
+    NSLog(@"update searchresultsforsearchcontroller");
+
+    if (searchText) {
+        NSLog(@"update searchtext");
         NSString *predicateFormat = @"%K BEGINSWITH[cd] %@";
         NSString *searchAttribute = @"title";
         
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFormat, searchAttribute, searchText];
-        [self.searchFetchRequest setPredicate:predicate];
+        self.searchPredicate = [NSPredicate predicateWithFormat:predicateFormat, searchAttribute, searchText];
+        [self.searchFetchRequest setPredicate:self.searchPredicate];
         
         NSError *error = nil;
         self.filteredList = [self.managedObjectContext executeFetchRequest:self.searchFetchRequest error:&error];
+
+        [self.tableView reloadData];
     }
 }
 
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
-    [self searchForText:searchString];
-    return YES;
-}
 
-//- (void) searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
-//    tableView.rowHeight = 64;
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//    if (tableView == self.tableView) {
+//        return @"Bloc Notes";
+//    } else {
+//        return nil;
+//    }
 //}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (tableView == self.tableView) {
-        return @"Bloc Notes";
-    } else {
-        return nil;
-    }
-}
 
 //- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
 //    if (tableView == self.tableView) {
@@ -192,13 +227,13 @@
 //    }
 //}
 
-- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
-    if (tableView == self.tableView) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
+//- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
+//    if (tableView == self.tableView) {
+//        return 1;
+//    } else {
+//        return 0;
+//    }
+//}
 
 
 
