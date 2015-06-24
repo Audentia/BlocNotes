@@ -15,6 +15,7 @@
 		C3942DEA1B2BB09F0044AE89 /* BlocNotes.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C3942DDF1B2BB09F0044AE89 /* BlocNotes.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C3A85E0A1B2F786F00977125 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C3A85E091B2F786F00977125 /* CoreDataManager.m */; };
 		C3A85E0B1B2F786F00977125 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C3A85E091B2F786F00977125 /* CoreDataManager.m */; };
+		C3AE2ADC1B38DB3E0080C8C9 /* ResultsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3AE2ADB1B38DB3E0080C8C9 /* ResultsTableViewController.m */; };
 		C3AF48A51B1D32830089730C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C3AF48A41B1D32830089730C /* main.m */; };
 		C3AF48A81B1D32830089730C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C3AF48A71B1D32830089730C /* AppDelegate.m */; };
 		C3AF48AB1B1D32830089730C /* com_Audentia_BlocNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C3AF48A91B1D32830089730C /* com_Audentia_BlocNotes.xcdatamodeld */; };
@@ -69,6 +70,8 @@
 		C3942DE61B2BB09F0044AE89 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 		C3A85E081B2F786F00977125 /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataManager.h; path = com.Audentia.BlocNotes/CoreDataManager.h; sourceTree = "<group>"; };
 		C3A85E091B2F786F00977125 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataManager.m; path = com.Audentia.BlocNotes/CoreDataManager.m; sourceTree = "<group>"; };
+		C3AE2ADA1B38DB3E0080C8C9 /* ResultsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultsTableViewController.h; sourceTree = "<group>"; };
+		C3AE2ADB1B38DB3E0080C8C9 /* ResultsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultsTableViewController.m; sourceTree = "<group>"; };
 		C3AF489F1B1D32830089730C /* com.Audentia.BlocNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = com.Audentia.BlocNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3AF48A31B1D32830089730C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3AF48A41B1D32830089730C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -175,6 +178,8 @@
 				C3AF48AD1B1D32830089730C /* MasterViewController.m */,
 				C3AF48AF1B1D32830089730C /* DetailViewController.h */,
 				C3AF48B01B1D32830089730C /* DetailViewController.m */,
+				C3AE2ADA1B38DB3E0080C8C9 /* ResultsTableViewController.h */,
+				C3AE2ADB1B38DB3E0080C8C9 /* ResultsTableViewController.m */,
 				C3AF48B21B1D32830089730C /* Main.storyboard */,
 				C3AF48B51B1D32830089730C /* Images.xcassets */,
 				C3AF48B71B1D32830089730C /* LaunchScreen.xib */,
@@ -363,6 +368,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3AE2ADC1B38DB3E0080C8C9 /* ResultsTableViewController.m in Sources */,
 				C3AF48B11B1D32830089730C /* DetailViewController.m in Sources */,
 				C3A85E0A1B2F786F00977125 /* CoreDataManager.m in Sources */,
 				C3AF48AE1B1D32830089730C /* MasterViewController.m in Sources */,

@@ -8,14 +8,18 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "ResultsTableViewController.h"
 
-@interface MasterViewController () <NSFetchedResultsControllerDelegate, UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating>
+@interface MasterViewController () <NSFetchedResultsControllerDelegate, UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating, UITableViewDelegate>
 
-@property (strong, nonatomic) NSArray *filteredList;
 @property (strong, nonatomic) NSPredicate *searchPredicate;
 
 @property (strong, nonatomic) NSFetchRequest *searchFetchRequest;
+
 @property (strong, nonatomic) UISearchController *searchController;
+@property (strong, nonatomic) ResultsTableViewController *resultsTableController;
+
+
 
 @property BOOL searchControllerWasActive;
 @property BOOL searchControllerSearchFieldWasFirstResponder;
@@ -35,21 +39,37 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    //embedding multiple vcs
+    
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    
+    _resultsTableController = [self.storyboard instantiateViewControllerWithIdentifier:@"ResultsTableViewController"];
+    _searchController = [[UISearchController alloc] initWithSearchResultsController:self.resultsTableController];
+   
+//    self.resultsTableController.tableView.delegate = self;
 
-    _searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchController.searchResultsController];
     
     self.searchController.searchResultsUpdater = self;
     [self.searchController.searchBar sizeToFit];
+    
     self.tableView.tableHeaderView = self.searchController.searchBar;
     
     self.searchController.delegate = self;
     self.searchController.dimsBackgroundDuringPresentation = NO;
     self.searchController.searchBar.delegate = self;
-    
+        
     self.definesPresentationContext = YES;
+
     
     self.detailViewController = (DetailViewController *)[self.splitViewController.viewControllers lastObject];
+    
+    //listen to response and perform segue
+    //    conform segue with identifier
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receiveNotification:)
+                                                 name:@"ResultsTableViewControllerDidTapSearchItemNotification"
+                                               object:nil];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -73,6 +93,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"ResultsTableViewControllerDidTapSearchItemNotification"
+                                                  object:nil];
+}
+
 - (void)insertNewObject:(id)sender {
     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
     NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
@@ -92,58 +118,43 @@
     }
 }
 
-#pragma mark - Segues
+#pragma mark - UISearchBarDelegate
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        DetailViewController *controller = (DetailViewController *)[segue destinationViewController];
-        [controller setDetailItem:object];
-        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-        controller.navigationItem.leftItemsSupplementBackButton = YES;
-    }
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
 }
+
+//- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+//    [[NSNotificationCenter defaultCenter] removeObserver:self
+//                                                    name:@"ResultsTableViewControllerDidTapSearchItemNotification"
+//                                                  object:nil];
+//
+//}
 
 #pragma mark - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (self.searchPredicate == nil) {
         return [[self.fetchedResultsController sections] count];
-    } else {
-        return 1;
-    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.searchPredicate == nil) {
         id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
+        NSLog(@"returning regular list");
         return [sectionInfo numberOfObjects];
-    } else {
-        NSLog(@"The search list is being populated");
-        return [self.filteredList count];
-    }
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
-    [self configureCell:cell atIndexPath:indexPath];
+    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+//    cell.textLabel.text = [[object valueForKey:@"title"] description];
+    
+    [ResultsTableViewController configureCell:cell forObject:object];
     return cell;
 }
 
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    NSManagedObject *object = nil;
-    if (self.searchPredicate == nil) {
-        object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        cell.textLabel.text = [[object valueForKey:@"title"] description];
-    } else {
-        object = [self.filteredList objectAtIndex:indexPath.row];
-        cell.textLabel.text = [[object valueForKey:@"title"] description];
-    }
 
-}
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
@@ -165,12 +176,46 @@
     }
 }
 
+#pragma mark - Segues
 
-#pragma mark - UISearchBarDelegate
+- (void)receiveNotification:(NSNotification *)notification
+{
+    if ([[notification name] isEqualToString:@"ResultsTableViewControllerDidTapSearchItemNotification"]) {
+        [self performSegueWithIdentifier:@"showDetail" sender:notification];
+        NSLog(@"receivedNotification");
+    }
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    [searchBar resignFirstResponder];
 }
+
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        
+        DetailViewController *controller = (DetailViewController *)[segue destinationViewController];
+        
+        if ([sender isKindOfClass:[NSNotification class]]) {
+            //use object from notification
+            NSLog(@"segue sender is notification");
+            NSNotification *receivedNotification = sender;
+            NSManagedObject *searchObject = receivedNotification.object;
+            [controller setDetailItem:searchObject];
+            
+        } else {
+            NSLog(@"segue sender is masterVC");
+
+            NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+            [controller setDetailItem:object];
+        }
+        
+        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+        controller.navigationItem.leftItemsSupplementBackButton = YES;
+        
+
+    }
+}
+
 
 #pragma mark - Search
 
@@ -197,45 +242,83 @@
 
     if (searchText) {
         NSLog(@"update searchtext");
-        NSString *predicateFormat = @"%K BEGINSWITH[cd] %@";
+        NSString *predicateFormat = @"%K CONTAINS[cd] %@ OR %K CONTAINS[cd] %@";
         NSString *searchAttribute = @"title";
+        NSString *searchAttributeTwo = @"text";
         
-        self.searchPredicate = [NSPredicate predicateWithFormat:predicateFormat, searchAttribute, searchText];
+        
+        self.searchPredicate = [NSPredicate predicateWithFormat:predicateFormat, searchAttribute, searchText, searchAttributeTwo, searchText];
         [self.searchFetchRequest setPredicate:self.searchPredicate];
         
         NSError *error = nil;
-        self.filteredList = [self.managedObjectContext executeFetchRequest:self.searchFetchRequest error:&error];
-
-        [self.tableView reloadData];
+        
+        NSArray *searchResults = [self.managedObjectContext executeFetchRequest:self.searchFetchRequest error:&error];
+        
+        ResultsTableViewController *tableController = (ResultsTableViewController *)self.searchController.searchResultsController;
+        tableController.filteredList = searchResults;
+        [tableController.tableView reloadData];
     }
+
 }
 
 
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//    if (tableView == self.tableView) {
-//        return @"Bloc Notes";
-//    } else {
-//        return nil;
-//    }
-//}
 
-//- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-//    if (tableView == self.tableView) {
-//        return <#expression#>
-//    } else {
-//        return nil;
-//    }
-//}
+#pragma mark - UIStateRestoration
 
-//- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
-//    if (tableView == self.tableView) {
-//        return 1;
-//    } else {
-//        return 0;
-//    }
-//}
+// we restore several items for state restoration:
+//  1) Search controller's active state,
+//  2) search text,
+//  3) first responder
 
+NSString *const ViewControllerTitleKey = @"ViewControllerTitleKey";
+NSString *const SearchControllerIsActiveKey = @"SearchControllerIsActiveKey";
+NSString *const SearchBarTextKey = @"SearchBarTextKey";
+NSString *const SearchBarIsFirstResponderKey = @"SearchBarIsFirstResponderKey";
 
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super encodeRestorableStateWithCoder:coder];
+    
+    // encode the view state so it can be restored later
+    
+    // encode the title
+    [coder encodeObject:self.title forKey:ViewControllerTitleKey];
+    
+    UISearchController *searchController = self.searchController;
+    
+    // encode the search controller's active state
+    BOOL searchDisplayControllerIsActive = searchController.isActive;
+    [coder encodeBool:searchDisplayControllerIsActive forKey:SearchControllerIsActiveKey];
+    
+    // encode the first responser status
+    if (searchDisplayControllerIsActive) {
+        [coder encodeBool:[searchController.searchBar isFirstResponder] forKey:SearchBarIsFirstResponderKey];
+    }
+    
+    // encode the search bar text
+    [coder encodeObject:searchController.searchBar.text forKey:SearchBarTextKey];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder {
+    [super decodeRestorableStateWithCoder:coder];
+    
+    // restore the title
+    self.title = [coder decodeObjectForKey:ViewControllerTitleKey];
+    
+    // restore the active state:
+    // we can't make the searchController active here since it's not part of the view
+    // hierarchy yet, instead we do it in viewWillAppear
+    //
+    _searchControllerWasActive = [coder decodeBoolForKey:SearchControllerIsActiveKey];
+    
+    // restore the first responder status:
+    // we can't make the searchController first responder here since it's not part of the view
+    // hierarchy yet, instead we do it in viewWillAppear
+    //
+    _searchControllerSearchFieldWasFirstResponder = [coder decodeBoolForKey:SearchBarIsFirstResponderKey];
+    
+    // restore the text in the search field
+    self.searchController.searchBar.text = [coder decodeObjectForKey:SearchBarTextKey];
+}
 
 
 #pragma mark - Fetched results controller
@@ -317,7 +400,8 @@
             break;
             
         case NSFetchedResultsChangeUpdate:
-            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+//            [self configureCell:tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            [self tableView:tableView cellForRowAtIndexPath:indexPath];
             break;
             
         case NSFetchedResultsChangeMove:

@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:../com.Audentia.BlocNotes/ResultsTableViewController.h">
+   </FileRef>
+   <FileRef
+      location = "group:../com.Audentia.BlocNotes/ResultsTableViewController.m">
+   </FileRef>
+   <FileRef
       location = "self:com.Audentia.BlocNotes.xcodeproj">
    </FileRef>
 </Workspace>
