@@ -7,7 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C317787C1B2BFE2B00F8E479 /* com_Audentia_BlocNotes.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = C3AF48A91B1D32830089730C /* com_Audentia_BlocNotes.xcdatamodeld */; };
+		C317787D1B2C016700F8E479 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = C34C043D1B1D590A0043A323 /* Note.m */; };
 		C34C043E1B1D590A0043A323 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = C34C043D1B1D590A0043A323 /* Note.m */; };
+		C3942DE51B2BB09F0044AE89 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3942DE41B2BB09F0044AE89 /* ShareViewController.m */; };
+		C3942DE71B2BB09F0044AE89 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3942DE61B2BB09F0044AE89 /* MainInterface.storyboard */; };
+		C3942DEA1B2BB09F0044AE89 /* BlocNotes.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C3942DDF1B2BB09F0044AE89 /* BlocNotes.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C3A85E0A1B2F786F00977125 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C3A85E091B2F786F00977125 /* CoreDataManager.m */; };
+		C3A85E0B1B2F786F00977125 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C3A85E091B2F786F00977125 /* CoreDataManager.m */; };
+		C3AE2ADC1B38DB3E0080C8C9 /* ResultsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3AE2ADB1B38DB3E0080C8C9 /* ResultsTableViewController.m */; };
 		C3AF48A51B1D32830089730C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C3AF48A41B1D32830089730C /* main.m */; };
 		C3AF48A81B1D32830089730C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C3AF48A71B1D32830089730C /* AppDelegate.m */; };
 		C3AF48AB1B1D32830089730C /* com_Audentia_BlocNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C3AF48A91B1D32830089730C /* com_Audentia_BlocNotes.xcdatamodeld */; };
@@ -20,6 +28,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C3942DE81B2BB09F0044AE89 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3AF48971B1D32820089730C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C3942DDE1B2BB09F0044AE89;
+			remoteInfo = BlocNotes;
+		};
 		C3AF48BF1B1D32830089730C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C3AF48971B1D32820089730C /* Project object */;
@@ -29,9 +44,34 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C367320C1B291BB9008EDC85 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C3942DEA1B2BB09F0044AE89 /* BlocNotes.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		C34C043C1B1D590A0043A323 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Note.h; path = ../Note.h; sourceTree = "<group>"; };
-		C34C043D1B1D590A0043A323 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Note.m; path = ../Note.m; sourceTree = "<group>"; };
+		C317787A1B2BF0E700F8E479 /* com.Audentia.BlocNotes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = com.Audentia.BlocNotes.entitlements; sourceTree = "<group>"; };
+		C317787B1B2BF12300F8E479 /* BlocNotes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = BlocNotes.entitlements; sourceTree = "<group>"; };
+		C34C043C1B1D590A0043A323 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
+		C34C043D1B1D590A0043A323 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
+		C3942DDF1B2BB09F0044AE89 /* BlocNotes.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BlocNotes.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3942DE21B2BB09F0044AE89 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3942DE31B2BB09F0044AE89 /* ShareViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
+		C3942DE41B2BB09F0044AE89 /* ShareViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
+		C3942DE61B2BB09F0044AE89 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
+		C3A85E081B2F786F00977125 /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataManager.h; path = com.Audentia.BlocNotes/CoreDataManager.h; sourceTree = "<group>"; };
+		C3A85E091B2F786F00977125 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataManager.m; path = com.Audentia.BlocNotes/CoreDataManager.m; sourceTree = "<group>"; };
+		C3AE2ADA1B38DB3E0080C8C9 /* ResultsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultsTableViewController.h; sourceTree = "<group>"; };
+		C3AE2ADB1B38DB3E0080C8C9 /* ResultsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultsTableViewController.m; sourceTree = "<group>"; };
 		C3AF489F1B1D32830089730C /* com.Audentia.BlocNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = com.Audentia.BlocNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3AF48A31B1D32830089730C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3AF48A41B1D32830089730C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -51,6 +91,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C3942DDC1B2BB09F0044AE89 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C3AF489C1B1D32830089730C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -68,11 +115,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C31D9A6F1B2F73B300DFE1FD /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				C3AF48A91B1D32830089730C /* com_Audentia_BlocNotes.xcdatamodeld */,
+				C3A85E081B2F786F00977125 /* CoreDataManager.h */,
+				C3A85E091B2F786F00977125 /* CoreDataManager.m */,
+				C34C043C1B1D590A0043A323 /* Note.h */,
+				C34C043D1B1D590A0043A323 /* Note.m */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
+		C3942DE01B2BB09F0044AE89 /* BlocNotes */ = {
+			isa = PBXGroup;
+			children = (
+				C317787B1B2BF12300F8E479 /* BlocNotes.entitlements */,
+				C3942DE31B2BB09F0044AE89 /* ShareViewController.h */,
+				C3942DE41B2BB09F0044AE89 /* ShareViewController.m */,
+				C3942DE61B2BB09F0044AE89 /* MainInterface.storyboard */,
+				C3942DE11B2BB09F0044AE89 /* Supporting Files */,
+			);
+			path = BlocNotes;
+			sourceTree = "<group>";
+		};
+		C3942DE11B2BB09F0044AE89 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C3942DE21B2BB09F0044AE89 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		C3AF48961B1D32820089730C = {
 			isa = PBXGroup;
 			children = (
+				C31D9A6F1B2F73B300DFE1FD /* CoreData */,
 				C3AF48A11B1D32830089730C /* com.Audentia.BlocNotes */,
 				C3AF48C11B1D32830089730C /* com.Audentia.BlocNotesTests */,
+				C3942DE01B2BB09F0044AE89 /* BlocNotes */,
 				C3AF48A01B1D32830089730C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -82,6 +163,7 @@
 			children = (
 				C3AF489F1B1D32830089730C /* com.Audentia.BlocNotes.app */,
 				C3AF48BE1B1D32830089730C /* com.Audentia.BlocNotesTests.xctest */,
+				C3942DDF1B2BB09F0044AE89 /* BlocNotes.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -89,18 +171,18 @@
 		C3AF48A11B1D32830089730C /* com.Audentia.BlocNotes */ = {
 			isa = PBXGroup;
 			children = (
+				C317787A1B2BF0E700F8E479 /* com.Audentia.BlocNotes.entitlements */,
 				C3AF48A61B1D32830089730C /* AppDelegate.h */,
 				C3AF48A71B1D32830089730C /* AppDelegate.m */,
 				C3AF48AC1B1D32830089730C /* MasterViewController.h */,
 				C3AF48AD1B1D32830089730C /* MasterViewController.m */,
 				C3AF48AF1B1D32830089730C /* DetailViewController.h */,
 				C3AF48B01B1D32830089730C /* DetailViewController.m */,
-				C34C043C1B1D590A0043A323 /* Note.h */,
-				C34C043D1B1D590A0043A323 /* Note.m */,
+				C3AE2ADA1B38DB3E0080C8C9 /* ResultsTableViewController.h */,
+				C3AE2ADB1B38DB3E0080C8C9 /* ResultsTableViewController.m */,
 				C3AF48B21B1D32830089730C /* Main.storyboard */,
 				C3AF48B51B1D32830089730C /* Images.xcassets */,
 				C3AF48B71B1D32830089730C /* LaunchScreen.xib */,
-				C3AF48A91B1D32830089730C /* com_Audentia_BlocNotes.xcdatamodeld */,
 				C3AF48A21B1D32830089730C /* Supporting Files */,
 			);
 			path = com.Audentia.BlocNotes;
@@ -135,6 +217,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		C3942DDE1B2BB09F0044AE89 /* BlocNotes */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C3942DED1B2BB0A00044AE89 /* Build configuration list for PBXNativeTarget "BlocNotes" */;
+			buildPhases = (
+				C3942DDB1B2BB09F0044AE89 /* Sources */,
+				C3942DDC1B2BB09F0044AE89 /* Frameworks */,
+				C3942DDD1B2BB09F0044AE89 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BlocNotes;
+			productName = BlocNotes;
+			productReference = C3942DDF1B2BB09F0044AE89 /* BlocNotes.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		C3AF489E1B1D32830089730C /* com.Audentia.BlocNotes */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C3AF48C81B1D32830089730C /* Build configuration list for PBXNativeTarget "com.Audentia.BlocNotes" */;
@@ -142,10 +241,12 @@
 				C3AF489B1B1D32830089730C /* Sources */,
 				C3AF489C1B1D32830089730C /* Frameworks */,
 				C3AF489D1B1D32830089730C /* Resources */,
+				C367320C1B291BB9008EDC85 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C3942DE91B2BB09F0044AE89 /* PBXTargetDependency */,
 			);
 			name = com.Audentia.BlocNotes;
 			productName = com.Audentia.BlocNotes;
@@ -179,8 +280,23 @@
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = Bloc;
 				TargetAttributes = {
+					C3942DDE1B2BB09F0044AE89 = {
+						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = 68KS6FN57P;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
 					C3AF489E1B1D32830089730C = {
 						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = 68KS6FN57P;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					C3AF48BD1B1D32830089730C = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -203,11 +319,21 @@
 			targets = (
 				C3AF489E1B1D32830089730C /* com.Audentia.BlocNotes */,
 				C3AF48BD1B1D32830089730C /* com.Audentia.BlocNotesTests */,
+				C3942DDE1B2BB09F0044AE89 /* BlocNotes */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C3942DDD1B2BB09F0044AE89 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C317787C1B2BFE2B00F8E479 /* com_Audentia_BlocNotes.xcdatamodeld in Resources */,
+				C3942DE71B2BB09F0044AE89 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C3AF489D1B1D32830089730C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -228,11 +354,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C3942DDB1B2BB09F0044AE89 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3A85E0B1B2F786F00977125 /* CoreDataManager.m in Sources */,
+				C3942DE51B2BB09F0044AE89 /* ShareViewController.m in Sources */,
+				C317787D1B2C016700F8E479 /* Note.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C3AF489B1B1D32830089730C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3AE2ADC1B38DB3E0080C8C9 /* ResultsTableViewController.m in Sources */,
 				C3AF48B11B1D32830089730C /* DetailViewController.m in Sources */,
+				C3A85E0A1B2F786F00977125 /* CoreDataManager.m in Sources */,
 				C3AF48AE1B1D32830089730C /* MasterViewController.m in Sources */,
 				C3AF48AB1B1D32830089730C /* com_Audentia_BlocNotes.xcdatamodeld in Sources */,
 				C34C043E1B1D590A0043A323 /* Note.m in Sources */,
@@ -252,6 +390,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C3942DE91B2BB09F0044AE89 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C3942DDE1B2BB09F0044AE89 /* BlocNotes */;
+			targetProxy = C3942DE81B2BB09F0044AE89 /* PBXContainerItemProxy */;
+		};
 		C3AF48C01B1D32830089730C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C3AF489E1B1D32830089730C /* com.Audentia.BlocNotes */;
@@ -279,6 +422,38 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		C3942DEB1B2BB09F0044AE89 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BlocNotes/BlocNotes.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = BlocNotes/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C3942DEC1B2BB09F0044AE89 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BlocNotes/BlocNotes.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = BlocNotes/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		C3AF48C61B1D32830089730C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -365,9 +540,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = com.Audentia.BlocNotes/com.Audentia.BlocNotes.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = com.Audentia.BlocNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -375,9 +554,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = com.Audentia.BlocNotes/com.Audentia.BlocNotes.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = com.Audentia.BlocNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -418,6 +601,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C3942DED1B2BB0A00044AE89 /* Build configuration list for PBXNativeTarget "BlocNotes" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3942DEB1B2BB09F0044AE89 /* Debug */,
+				C3942DEC1B2BB09F0044AE89 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C3AF489A1B1D32820089730C /* Build configuration list for PBXProject "com.Audentia.BlocNotes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -454,7 +646,8 @@
 				C3AF48AA1B1D32830089730C /* com_Audentia_BlocNotes.xcdatamodel */,
 			);
 			currentVersion = C3AF48AA1B1D32830089730C /* com_Audentia_BlocNotes.xcdatamodel */;
-			path = com_Audentia_BlocNotes.xcdatamodeld;
+			name = com_Audentia_BlocNotes.xcdatamodeld;
+			path = com.Audentia.BlocNotes/com_Audentia_BlocNotes.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
