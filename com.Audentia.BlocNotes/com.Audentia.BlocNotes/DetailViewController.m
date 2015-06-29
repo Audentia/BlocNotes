@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *noteTitle;
 @property (weak, nonatomic) IBOutlet UITextView *noteText;
 
+@property (weak, nonatomic) IBOutlet UIButton *editButton;
 
 @end
 
@@ -50,6 +51,26 @@
     
 }
 
+    
+- (IBAction)didTapEditButton:(id)sender {
+
+    switch (self.noteText.editable) {
+        case NO:
+            [self.editButton setTitle:@"Done" forState:UIControlStateNormal];
+            self.noteText.dataDetectorTypes = UIDataDetectorTypeNone;
+            self.noteText.editable = YES;
+            break;
+            
+        case YES:
+            [self.editButton setTitle:@"Edit" forState:UIControlStateNormal];
+            self.noteText.editable = NO;
+            self.noteText.dataDetectorTypes = UIDataDetectorTypeAll;
+            break;
+            default:
+            NSLog(@"didtap gesture, unsure what to do");
+            break;
+    }
+}
 
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -62,6 +83,10 @@
     // Update the user interface for the detail item.
 
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    self.noteText.editable = NO;
+    //add data detectors
+    self.noteText.dataDetectorTypes = UIDataDetectorTypeAll;
     
     if (self.detailItem) {
         self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
