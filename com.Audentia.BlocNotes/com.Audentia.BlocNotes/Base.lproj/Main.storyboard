@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8121.20" systemVersion="15A204h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8152.3" systemVersion="15A216g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8101.16"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8124.4"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Master-->
@@ -150,6 +151,61 @@
             </objects>
             <point key="canvasLocation" x="709" y="129"/>
         </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="7vQ-kc-Sac">
+            <objects>
+                <viewController id="F4a-z6-BeI" customClass="SettingsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jpA-ot-oZs"/>
+                        <viewControllerLayoutGuide type="bottom" id="YjS-zb-VKg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VRF-C4-nTT">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L5a-OD-HWn">
+                                <rect key="frame" x="276" y="284" width="51" height="31"/>
+                                <animations/>
+                                <connections>
+                                    <action selector="iCloudSwitch:forEvent:" destination="F4a-z6-BeI" eventType="valueChanged" id="mgY-to-X5C"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="iCloud" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MvQ-Rj-kGO">
+                                <rect key="frame" x="262" y="245" width="76" height="31"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="76" id="9Vb-jv-qwY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Yz-nW-gzs">
+                                <rect key="frame" x="20" y="20" width="55" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Back"/>
+                                <connections>
+                                    <action selector="didPressBackButton:" destination="F4a-z6-BeI" eventType="touchUpInside" id="fNg-Bd-eeT"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="L5a-OD-HWn" firstAttribute="top" secondItem="MvQ-Rj-kGO" secondAttribute="bottom" constant="8" symbolic="YES" id="7WL-yO-uVY"/>
+                            <constraint firstItem="5Yz-nW-gzs" firstAttribute="top" secondItem="jpA-ot-oZs" secondAttribute="bottom" id="B8g-H5-XbG"/>
+                            <constraint firstItem="L5a-OD-HWn" firstAttribute="centerX" secondItem="MvQ-Rj-kGO" secondAttribute="centerX" id="Cph-f9-NgO"/>
+                            <constraint firstItem="L5a-OD-HWn" firstAttribute="centerY" secondItem="VRF-C4-nTT" secondAttribute="centerY" id="Di4-TV-LTb"/>
+                            <constraint firstItem="MvQ-Rj-kGO" firstAttribute="centerX" secondItem="VRF-C4-nTT" secondAttribute="centerX" id="LHM-gu-6ea"/>
+                            <constraint firstItem="MvQ-Rj-kGO" firstAttribute="top" secondItem="jpA-ot-oZs" secondAttribute="bottom" constant="225" id="PV8-e6-d58"/>
+                            <constraint firstItem="5Yz-nW-gzs" firstAttribute="leading" secondItem="VRF-C4-nTT" secondAttribute="leadingMargin" id="evH-4P-Fd7"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="we9-LE-2Oq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="962" y="-1330"/>
+        </scene>
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">
             <objects>
@@ -217,14 +273,25 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Bloc Notes" id="Zdf-7t-Un8">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="2Yj-es-FDo">
-                            <connections>
-                                <segue destination="JEX-9P-axG" kind="show" id="qfN-z9-zxH"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="2Yj-es-FDo">
+                                <connections>
+                                    <segue destination="JEX-9P-axG" kind="show" id="qfN-z9-zxH"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Settings" id="GDV-mh-gUQ">
+                                <connections>
+                                    <action selector="didPressSettingsButton:" destination="7bK-jq-Zjz" id="lQm-8D-U9C"/>
+                                    <segue destination="F4a-z6-BeI" kind="popoverPresentation" popoverAnchorBarButtonItem="GDV-mh-gUQ" id="Fc0-vG-AJU">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="searchDisplayController" destination="OV0-eX-tTF" id="1YE-sw-Jvn"/>
+                        <outlet property="settingsButton" destination="GDV-mh-gUQ" id="4ze-3G-yct"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
@@ -242,6 +309,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="7z9-uA-4bZ"/>
+        <segue reference="qfN-z9-zxH"/>
     </inferredMetricsTieBreakers>
 </document>

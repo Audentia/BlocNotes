@@ -25,6 +25,9 @@
 		C3AF48B61B1D32830089730C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3AF48B51B1D32830089730C /* Images.xcassets */; };
 		C3AF48B91B1D32830089730C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3AF48B71B1D32830089730C /* LaunchScreen.xib */; };
 		C3AF48C51B1D32830089730C /* com_Audentia_BlocNotesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C3AF48C41B1D32830089730C /* com_Audentia_BlocNotesTests.m */; };
+		C3E1075C1B4F87A200D5AA73 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3E1075B1B4F87A200D5AA73 /* SettingsViewController.m */; };
+		C3E1075F1B4F913A00D5AA73 /* CoreDataiCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = C3E1075E1B4F913A00D5AA73 /* CoreDataiCloud.m */; };
+		C3E107621B4F915700D5AA73 /* CoreDataLocal.m in Sources */ = {isa = PBXBuildFile; fileRef = C3E107611B4F915700D5AA73 /* CoreDataLocal.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +91,12 @@
 		C3AF48BE1B1D32830089730C /* com.Audentia.BlocNotesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = com.Audentia.BlocNotesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3AF48C31B1D32830089730C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3AF48C41B1D32830089730C /* com_Audentia_BlocNotesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = com_Audentia_BlocNotesTests.m; sourceTree = "<group>"; };
+		C3E1075A1B4F87A200D5AA73 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		C3E1075B1B4F87A200D5AA73 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		C3E1075D1B4F913A00D5AA73 /* CoreDataiCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataiCloud.h; path = com.Audentia.BlocNotes/CoreDataiCloud.h; sourceTree = "<group>"; };
+		C3E1075E1B4F913A00D5AA73 /* CoreDataiCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataiCloud.m; path = com.Audentia.BlocNotes/CoreDataiCloud.m; sourceTree = "<group>"; };
+		C3E107601B4F915700D5AA73 /* CoreDataLocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataLocal.h; sourceTree = "<group>"; };
+		C3E107611B4F915700D5AA73 /* CoreDataLocal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataLocal.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +130,10 @@
 				C3AF48A91B1D32830089730C /* com_Audentia_BlocNotes.xcdatamodeld */,
 				C3A85E081B2F786F00977125 /* CoreDataManager.h */,
 				C3A85E091B2F786F00977125 /* CoreDataManager.m */,
+				C3E1075D1B4F913A00D5AA73 /* CoreDataiCloud.h */,
+				C3E1075E1B4F913A00D5AA73 /* CoreDataiCloud.m */,
+				C3E107601B4F915700D5AA73 /* CoreDataLocal.h */,
+				C3E107611B4F915700D5AA73 /* CoreDataLocal.m */,
 				C34C043C1B1D590A0043A323 /* Note.h */,
 				C34C043D1B1D590A0043A323 /* Note.m */,
 			);
@@ -181,6 +194,8 @@
 				C3AE2ADA1B38DB3E0080C8C9 /* ResultsTableViewController.h */,
 				C3AE2ADB1B38DB3E0080C8C9 /* ResultsTableViewController.m */,
 				C3AF48B21B1D32830089730C /* Main.storyboard */,
+				C3E1075A1B4F87A200D5AA73 /* SettingsViewController.h */,
+				C3E1075B1B4F87A200D5AA73 /* SettingsViewController.m */,
 				C3AF48B51B1D32830089730C /* Images.xcassets */,
 				C3AF48B71B1D32830089730C /* LaunchScreen.xib */,
 				C3AF48A21B1D32830089730C /* Supporting Files */,
@@ -296,6 +311,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
 						};
 					};
 					C3AF48BD1B1D32830089730C = {
@@ -371,10 +389,13 @@
 				C3AE2ADC1B38DB3E0080C8C9 /* ResultsTableViewController.m in Sources */,
 				C3AF48B11B1D32830089730C /* DetailViewController.m in Sources */,
 				C3A85E0A1B2F786F00977125 /* CoreDataManager.m in Sources */,
+				C3E107621B4F915700D5AA73 /* CoreDataLocal.m in Sources */,
+				C3E1075C1B4F87A200D5AA73 /* SettingsViewController.m in Sources */,
 				C3AF48AE1B1D32830089730C /* MasterViewController.m in Sources */,
 				C3AF48AB1B1D32830089730C /* com_Audentia_BlocNotes.xcdatamodeld in Sources */,
 				C34C043E1B1D590A0043A323 /* Note.m in Sources */,
 				C3AF48A81B1D32830089730C /* AppDelegate.m in Sources */,
+				C3E1075F1B4F913A00D5AA73 /* CoreDataiCloud.m in Sources */,
 				C3AF48A51B1D32830089730C /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

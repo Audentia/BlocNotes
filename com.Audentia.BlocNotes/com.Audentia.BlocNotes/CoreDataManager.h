@@ -17,7 +17,8 @@
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
--(void)saveDataForItem:(id)detailItem WithTitle:(NSString *)noteTitle AndText:(NSString *)noteText;
+- (void)saveDataForItem:(id)detailItem WithTitle:(NSString *)noteTitle AndText:(NSString *)noteText;
+
 + (instancetype) sharedInstance;
 
 

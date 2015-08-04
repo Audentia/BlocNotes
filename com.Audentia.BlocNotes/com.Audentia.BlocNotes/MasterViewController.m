@@ -19,6 +19,8 @@
 @property (strong, nonatomic) UISearchController *searchController;
 @property (strong, nonatomic) ResultsTableViewController *resultsTableController;
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
+
 
 
 @property BOOL searchControllerWasActive;
@@ -117,6 +119,14 @@
         abort();
     }
 }
+
+#pragma mark - iCloudSettings
+
+- (IBAction)didPressSettingsButton:(UIBarButtonItem *)sender {
+    [self performSegueWithIdentifier:@"showSettings" sender:sender];
+}
+
+
 
 #pragma mark - UISearchBarDelegate
 

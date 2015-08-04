@@ -54,21 +54,17 @@
     
 - (IBAction)didTapEditButton:(id)sender {
 
-    switch (self.noteText.editable) {
-        case NO:
-            [self.editButton setTitle:@"Done" forState:UIControlStateNormal];
-            self.noteText.dataDetectorTypes = UIDataDetectorTypeNone;
-            self.noteText.editable = YES;
-            break;
+    if (self.noteText.editable == NO) {
+
+        [self.editButton setTitle:@"Done" forState:UIControlStateNormal];
+        self.noteText.dataDetectorTypes = UIDataDetectorTypeNone;
+        self.noteText.editable = YES;
+        
+    } else {
             
-        case YES:
-            [self.editButton setTitle:@"Edit" forState:UIControlStateNormal];
-            self.noteText.editable = NO;
-            self.noteText.dataDetectorTypes = UIDataDetectorTypeAll;
-            break;
-            default:
-            NSLog(@"didtap gesture, unsure what to do");
-            break;
+        [self.editButton setTitle:@"Edit" forState:UIControlStateNormal];
+        self.noteText.editable = NO;
+        self.noteText.dataDetectorTypes = UIDataDetectorTypeAll;
     }
 }
 

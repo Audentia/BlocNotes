@@ -11,7 +11,7 @@
 #import "MasterViewController.h"
 #import "CoreDataManager.h"
 
-@interface AppDelegate () <UISplitViewControllerDelegate>
+@interface AppDelegate () <UISplitViewControllerDelegate, UIAlertViewDelegate>
 
 
 @end
