@@ -8,6 +8,11 @@
 
 #import "CoreDataManager.h"
 
+@interface CoreDataManager ()
+
+@property (nonatomic,strong) NSURL* storeURL;
+
+@end
 
 @implementation CoreDataManager
 
@@ -52,10 +57,10 @@
     // Create the coordinator and store
     
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"com_Audentia_BlocNotes.sqlite"];
+    self.storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"com_Audentia_BlocNotes.sqlite"];
     NSError *error = nil;
     NSString *failureReason = @"There was an error creating or loading the application's saved data.";
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:self.storeURL options:nil error:&error]) {
         // Report any error we got.
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         dict[NSLocalizedDescriptionKey] = @"Failed to initialize the application's saved data";
@@ -87,7 +92,7 @@
     return _managedObjectContext;
 }
 
-#pragma mark - Notification Observers
+#pragma mark - iCloud
 - (void)registerForiCloudNotifications {
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     
@@ -105,6 +110,73 @@
                            selector:@selector(persistentStoreDidImportUbiquitousContentChanges:)
                                name:NSPersistentStoreDidImportUbiquitousContentChangesNotification
                              object:self.persistentStoreCoordinator];
+    
+    NSError *error;
+    
+    [self.managedObjectContext.persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                                                       configuration:nil
+                                                                                 URL:self.storeURL
+                                                                             options:@{ NSPersistentStoreUbiquitousContentNameKey : @"iCloudStore" }
+                                                                               error:&error];
+    if (error) {
+        NSLog(@"error: %@", error);
+    }
+}
+
+// Subscribe to NSPersistentStoreDidImportUbiquitousContentChangesNotification
+- (void)persistentStoreDidImportUbiquitousContentChanges:(NSNotification*)note
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    NSLog(@"%@", note.userInfo.description);
+    
+    NSManagedObjectContext *moc = self.managedObjectContext;
+    [moc performBlock:^{
+        [moc mergeChangesFromContextDidSaveNotification:note];
+        
+        // you may want to post a notification here so that which ever part of your app
+        // needs to can react appropriately to what was merged.
+        // An exmaple of how to iterate over what was merged follows, although I wouldn't
+        // recommend doing it here. Better handle it in a delegate or use notifications.
+        // Note that the notification contains NSManagedObjectIDs
+        // and not NSManagedObjects.
+        NSDictionary *changes = note.userInfo;
+        NSMutableSet *allChanges = [NSMutableSet new];
+        [allChanges unionSet:changes[NSInsertedObjectsKey]];
+        [allChanges unionSet:changes[NSUpdatedObjectsKey]];
+        [allChanges unionSet:changes[NSDeletedObjectsKey]];
+        
+        for (NSManagedObjectID *objID in allChanges) {
+            // do whatever you need to with the NSManagedObjectID
+            // you can retrieve the object from with [moc objectWithID:objID]
+        }
+        
+    }];
+}
+
+// Subscribe to NSPersistentStoreCoordinatorStoresWillChangeNotification
+// most likely to be called if the user enables / disables iCloud
+// (either globally, or just for your app) or if the user changes
+// iCloud accounts.
+- (void)storesWillChange:(NSNotification *)note {
+    NSManagedObjectContext *moc = self.managedObjectContext;
+    [moc performBlockAndWait:^{
+        NSError *error = nil;
+        if ([moc hasChanges]) {
+            [moc save:&error];
+        }
+        
+        [moc reset];
+    }];
+    
+    // now reset your UI to be prepared for a totally different
+    // set of data (eg, popToRootViewControllerAnimated:)
+    // but don't load any new data yet.
+}
+
+// Subscribe to NSPersistentStoreCoordinatorStoresDidChangeNotification
+- (void)storesDidChange:(NSNotification *)note {
+    // here is when you can refresh your UI and
+    // load new data from the new store
 }
 
 #pragma mark - Core Data Migration
