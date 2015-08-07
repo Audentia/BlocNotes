@@ -68,8 +68,13 @@
     //listen to response and perform segue
     //    conform segue with identifier
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(receiveNotification:)
+                                             selector:@selector(receiveResultsNotification:)
                                                  name:@"ResultsTableViewControllerDidTapSearchItemNotification"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receiveiCloudNotification:)
+                                                 name:@"storesDidChangeNotification"
                                                object:nil];
 
 }
@@ -99,6 +104,9 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:@"ResultsTableViewControllerDidTapSearchItemNotification"
                                                   object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:@"storesDidChangeNotification"
+                                                  object:nil];
 }
 
 - (void)insertNewObject:(id)sender {
@@ -124,6 +132,13 @@
 
 - (IBAction)didPressSettingsButton:(UIBarButtonItem *)sender {
     [self performSegueWithIdentifier:@"showSettings" sender:sender];
+}
+
+- (void)receiveiCloudNotification:(NSNotification *)notification {
+    if ([[notification name] isEqualToString:@"storesDidChangeNotification"]) {
+        [self.tableView reloadData];
+        NSLog(@"reload tableView for iCloud data");
+    }
 }
 
 
@@ -188,13 +203,12 @@
 
 #pragma mark - Segues
 
-- (void)receiveNotification:(NSNotification *)notification
+- (void)receiveResultsNotification:(NSNotification *)notification
 {
     if ([[notification name] isEqualToString:@"ResultsTableViewControllerDidTapSearchItemNotification"]) {
         [self performSegueWithIdentifier:@"showDetail" sender:notification];
         NSLog(@"receivedNotification");
     }
-
 }
 
 

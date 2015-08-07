@@ -29,6 +29,7 @@
     UINavigationController *masterNavigationController = splitViewController.viewControllers[0];
     MasterViewController *controller = (MasterViewController *)masterNavigationController.topViewController;
     controller.managedObjectContext = [CoreDataManager sharedInstance].managedObjectContext;
+    [[CoreDataManager sharedInstance] registerForiCloudNotifications];
     return YES;
 }
 

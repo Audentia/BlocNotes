@@ -87,7 +87,7 @@
     if (!coordinator) {
         return nil;
     }
-    _managedObjectContext = [[NSManagedObjectContext alloc] init];
+    _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     [_managedObjectContext setPersistentStoreCoordinator:coordinator];
     return _managedObjectContext;
 }
@@ -168,7 +168,7 @@
         [moc reset];
     }];
     
-    // now reset your UI to be prepared for a totally different
+    // now reset your UI to be prepared USER for a totally different
     // set of data (eg, popToRootViewControllerAnimated:)
     // but don't load any new data yet.
 }
@@ -177,6 +177,8 @@
 - (void)storesDidChange:(NSNotification *)note {
     // here is when you can refresh your UI and
     // load new data from the new store
+    //send notification
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"storesDidChangeNotification" object:nil];
 }
 
 #pragma mark - Core Data Migration

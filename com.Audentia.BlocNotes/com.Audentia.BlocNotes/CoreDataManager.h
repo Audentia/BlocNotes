@@ -18,6 +18,7 @@
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 - (void)saveDataForItem:(id)detailItem WithTitle:(NSString *)noteTitle AndText:(NSString *)noteText;
+- (void)registerForiCloudNotifications;
 
 + (instancetype) sharedInstance;
 
