@@ -10,7 +10,8 @@
 
 @interface CoreDataManager ()
 
-@property (nonatomic,strong) NSURL* storeURL;
+@property (nonatomic, strong) NSURL* storeURL;
+@property (nonatomic, strong) NSDictionary *iCloudStore;
 
 @end
 
@@ -94,6 +95,7 @@
 
 #pragma mark - iCloud
 - (void)registerForiCloudNotifications {
+    self.iCloudStore = @{ NSPersistentStoreUbiquitousContentNameKey : @"iCloudStore" };
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     
     [notificationCenter addObserver:self
@@ -116,7 +118,7 @@
     [self.managedObjectContext.persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
                                                                        configuration:nil
                                                                                  URL:self.storeURL
-                                                                             options:@{ NSPersistentStoreUbiquitousContentNameKey : @"iCloudStore" }
+                                                                             options:self.iCloudStore
                                                                                error:&error];
     if (error) {
         NSLog(@"error: %@", error);
@@ -173,12 +175,59 @@
     // but don't load any new data yet.
 }
 
-// Subscribe to NSPersistentStoreCoordinatorStoresDidChangeNotification
 - (void)storesDidChange:(NSNotification *)note {
-    // here is when you can refresh your UI and
-    // load new data from the new store
-    //send notification
+//    [self migrateLocalStoreToiCloudStore];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"storesDidChangeNotification" object:nil];
+}
+
+- (void)migrateLocalStoreToiCloudStore {
+    NSPersistentStore *store = [[_persistentStoreCoordinator persistentStores] firstObject];
+//    NSPersistentStore *currentStore = self.persistentStoreCoordinator.persistentStores.lastObject;
+
+    
+    NSURL *newStoreURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"group.com.Audentia.BlocNotes.sqlite"];
+    
+    
+    NSPersistentStore *newStore = [_persistentStoreCoordinator migratePersistentStore:store
+                                                                                toURL:newStoreURL
+                                                                              options:self.iCloudStore
+                                                                             withType:NSSQLiteStoreType
+                                                                                error:nil];
+    [self reloadStore:newStore];
+    NSLog(@"%@", newStoreURL.absoluteString);
+}
+
+
+- (void)migrateiCloudStoreToLocalStore {
+    // assuming you only have one store.
+    NSPersistentStore *store = [[_persistentStoreCoordinator persistentStores] firstObject];
+    
+    NSURL *newStoreURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"group.com.Audentia.BlocNotes.sqlite"];
+    
+    
+    NSMutableDictionary *localStoreOptions = [self.iCloudStore mutableCopy];
+    [localStoreOptions setObject:@YES forKey:NSPersistentStoreRemoveUbiquitousMetadataOption];
+    
+    NSPersistentStore *newStore =  [_persistentStoreCoordinator migratePersistentStore:store
+                                                                                 toURL:newStoreURL
+                                                                               options:localStoreOptions
+                                                                              withType:NSSQLiteStoreType
+                                                                                 error:nil];
+    
+    [self reloadStore:newStore];
+}
+
+- (void)reloadStore:(NSPersistentStore *)store {
+    if (store) {
+        [_persistentStoreCoordinator removePersistentStore:store error:nil];
+    }
+    NSURL *newStoreURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"group.com.Audentia.BlocNotes.sqlite"];
+    
+    [_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                              configuration:nil
+                                                        URL:newStoreURL
+                                                    options:self.iCloudStore
+                                                      error:nil];
 }
 
 #pragma mark - Core Data Migration
