@@ -125,6 +125,31 @@
     }
 }
 
+// Subscribe to NSPersistentStoreCoordinatorStoresWillChangeNotification
+// most likely to be called if the user enables / disables iCloud
+// (either globally, or just for your app) or if the user changes
+// iCloud accounts.
+- (void)storesWillChange:(NSNotification *)note {
+    NSManagedObjectContext *moc = self.managedObjectContext;
+    [moc performBlockAndWait:^{
+        NSError *error = nil;
+        if ([moc hasChanges]) {
+            [moc save:&error];
+        }
+        
+        [moc reset];
+    }];
+    
+    // now reset your UI to be prepared USER for a totally different
+    // set of data (eg, popToRootViewControllerAnimated:)
+    // but don't load any new data yet.
+}
+
+- (void)storesDidChange:(NSNotification *)note {
+//    [self migrateLocalStoreToiCloudStore]; //an attempt to alliviate issues
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"storesDidChangeNotification" object:nil];
+}
+
 // Subscribe to NSPersistentStoreDidImportUbiquitousContentChangesNotification
 - (void)persistentStoreDidImportUbiquitousContentChanges:(NSNotification*)note
 {
@@ -155,35 +180,10 @@
     }];
 }
 
-// Subscribe to NSPersistentStoreCoordinatorStoresWillChangeNotification
-// most likely to be called if the user enables / disables iCloud
-// (either globally, or just for your app) or if the user changes
-// iCloud accounts.
-- (void)storesWillChange:(NSNotification *)note {
-    NSManagedObjectContext *moc = self.managedObjectContext;
-    [moc performBlockAndWait:^{
-        NSError *error = nil;
-        if ([moc hasChanges]) {
-            [moc save:&error];
-        }
-        
-        [moc reset];
-    }];
-    
-    // now reset your UI to be prepared USER for a totally different
-    // set of data (eg, popToRootViewControllerAnimated:)
-    // but don't load any new data yet.
-}
-
-- (void)storesDidChange:(NSNotification *)note {
-//    [self migrateLocalStoreToiCloudStore];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"storesDidChangeNotification" object:nil];
-}
-
 - (void)migrateLocalStoreToiCloudStore {
     NSPersistentStore *store = [[_persistentStoreCoordinator persistentStores] firstObject];
-//    NSPersistentStore *currentStore = self.persistentStoreCoordinator.persistentStores.lastObject;
-
+    //    NSPersistentStore *currentStore = self.persistentStoreCoordinator.persistentStores.lastObject;
+    
     
     NSURL *newStoreURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"group.com.Audentia.BlocNotes.sqlite"];
     
@@ -196,7 +196,6 @@
     [self reloadStore:newStore];
     NSLog(@"%@", newStoreURL.absoluteString);
 }
-
 
 - (void)migrateiCloudStoreToLocalStore {
     // assuming you only have one store.
